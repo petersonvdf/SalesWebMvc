@@ -40,6 +40,7 @@
                         <th>Seller</th>
                         <th>Amount</th>
                         <th>Status</th>
+                        <th></th>
                     </tr>
                 </thead>
                 <tbody>
@@ -50,6 +51,11 @@
                             <td>@Html.DisplayFor(modelItem => sale.Seller.Name)</td>
                             <td>@Html.DisplayFor(modelItem => sale.Amount)</td>
                             <td>@Html.DisplayFor(modelItem => sale.Status)</td>
+                            <td>
+                                <a asp-action="Edit" asp-route-id="@sale.Id">Edit</a> |
+                                <a asp-action="Details" asp-route-id="@sale.Id">Details</a> |
+                                <a asp-action="Delete" asp-route-id="@sale.Id">Delete</a>
+                            </td>
                         </tr>
                     }
                 </tbody>

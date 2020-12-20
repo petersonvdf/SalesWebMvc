@@ -21,15 +21,15 @@ namespace SalesWebMvc.Services
             return await _context.Department.ToListAsync();
         }
 
+        public async Task<Department> FindByIdAsync(int id)
+        {
+            return await _context.Department.FirstOrDefaultAsync(department => department.Id == id);
+        }
+
         public async Task InsertAsync(Department department)
         {
             _context.Department.Add(department);
             await _context.SaveChangesAsync();
-        }
-
-        public async Task<Department> FindByIdAsync(int id)
-        {
-            return await _context.Department.FirstOrDefaultAsync(department => department.Id == id);
         }
 
         public async Task RemoveAsync(int id)

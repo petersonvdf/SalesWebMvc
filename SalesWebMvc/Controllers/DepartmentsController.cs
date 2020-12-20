@@ -18,11 +18,6 @@ namespace SalesWebMvc.Controllers
             _departmentService = departmentService;
         }
 
-        public async Task<IActionResult> Index()
-        {
-            return View(await _departmentService.FindAllAsync());
-        }
-
         public IActionResult Create()
         {
             return View();
@@ -43,7 +38,7 @@ namespace SalesWebMvc.Controllers
 
         public async Task<IActionResult> Delete(int? id)
         {
-            if (id == null)
+            if (!id.HasValue)
             {
                 return RedirectToAction(nameof(Error), new { Message = "Id not provided" });
             }
@@ -75,13 +70,13 @@ namespace SalesWebMvc.Controllers
 
         public async Task<IActionResult> Details(int? id)
         {
-            if (id == null)
+            if (!id.HasValue)
             {
                 return RedirectToAction(nameof(Error), new { Message = "Id not provided" });
             }
 
             Department department = await _departmentService.FindByIdAsync(id.Value);
-            
+
             if (department == null)
             {
                 return RedirectToAction(nameof(Error), new { Message = "Id not found" });
@@ -92,7 +87,7 @@ namespace SalesWebMvc.Controllers
 
         public async Task<IActionResult> Edit(int? id)
         {
-            if (id == null)
+            if (!id.HasValue)
             {
                 return RedirectToAction(nameof(Error), new { Message = "Id not provided" });
             }
@@ -134,13 +129,16 @@ namespace SalesWebMvc.Controllers
 
         public IActionResult Error(string message)
         {
-            var viewModel = new ErrorViewModel
+            return View(new ErrorViewModel
             {
                 Message = message,
                 RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier
-            };
+            });
+        }
 
-            return View(viewModel);
+        public async Task<IActionResult> Index()
+        {
+            return View(await _departmentService.FindAllAsync());
         }
     }
 }
