@@ -1,0 +1,56 @@
+﻿@model IEnumerable<SalesWebMvc.Models.SalesRecord>
+
+@{ 
+    ViewData["Title"] = "Simple search";
+}
+
+<h2>@ViewData["Title"]</h2>
+
+<nav class="navbar navbar-inverse">
+    <div class="container-fluid">
+        <form class="navbar-form navbar-left" role="search">
+            <div class="form-group">
+                <div class="form-group">
+                    <label for="initial">Initial</label>
+                    <input type="date" class="form-control" name="initial" value="@ViewData["initial"]" />
+                </div>
+                <div class="form-group">
+                    <label for="final">Final</label>
+                    <input type="date" class="form-control" name="final" value="@ViewData["final"]" />
+                </div>
+            </div>
+            <button type="submit" class="btn btn-primary">Filter</button>
+        </form>
+    </div>
+</nav>
+
+<div class="panel panel-primary">
+    <div class="panel-heading">
+        <h3 class="panel-title">Total sales: @Model.Sum(sale => sale.Amount).ToString("F2")</h3>
+    </div>
+    <div class="panel-body">
+        <table class="table table-striped table-hover">
+            <thead>
+                <tr class="success">
+                    <th>@Html.DisplayNameFor(sale => sale.Date)</th>
+                    <th>@Html.DisplayNameFor(sale => sale.Seller)</th>
+                    <th>@Html.DisplayNameFor(sale => sale.Seller.Department)</th>
+                    <th>@Html.DisplayNameFor(sale => sale.Amount)</th>
+                    <th>@Html.DisplayNameFor(sale => sale.Status)</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (SalesRecord sale in Model)
+                {
+                    <tr>
+                        <td>@Html.DisplayFor(modelItem => sale.Date)</td>
+                        <td>@Html.DisplayFor(modelItem => sale.Seller.Name)</td>
+                        <td>@Html.DisplayFor(modelItem => sale.Seller.Department.Name)</td>
+                        <td>@Html.DisplayFor(modelItem => sale.Amount)</td>
+                        <td>@Html.DisplayFor(modelItem => sale.Status)</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
